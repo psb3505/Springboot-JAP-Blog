@@ -25,12 +25,12 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create  # 테이블을 초기에 생성할 때만 create로 설정 / 테이블 생성되면 update로 변경해야 함 create로 두면 계속 다시 생성되기 때문에
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
+    show-sql: true  # 테이블 상태를 콘솔에서 보여줌
     properties:
-      hibernate.format_sql: true
+      hibernate.format_sql: true  # 원래 테이블 상태를 보여줄 때 한 줄로 나오는데 이걸 true 설정하면 테이블을 보기 쉽게 정렬해서 나온다.
 
   jackson:
     serialization:
