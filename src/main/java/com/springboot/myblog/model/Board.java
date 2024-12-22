@@ -1,18 +1,21 @@
 package com.springboot.myblog.model;
 
 import java.security.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,9 +44,14 @@ public class Board {
     // Board = Many, User = one
     // 한 명의 유저는 여러개의 게시글을 쓸 수 있다.
     // 한 개의 게시글은 한 명의 유저만 쓸 수 있다.
-    @ManyToOne  
+    @ManyToOne(fetch = FetchType.EAGER)  
     @JoinColumn(name = "userId")
     private User user;    // DB는 오브젝트를 저장할 수 없다. FK를 사용해야 하는데, 자바는 오브젝트를 저장할 수 있다.
+
+    // mappedBy는 연관관계의 주인이 아니다.
+    // 즉, 나는 FK가 아니다. 그래서 DB에 칼럼을 만들지 말라는 뜻이다.
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
+    private List<Reply> reply;
 
     @CreationTimestamp
     private Timestamp createDate;
