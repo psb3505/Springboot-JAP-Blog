@@ -1,12 +1,16 @@
 package com.springboot.myblog.model;
 
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,6 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// @DynamicInsert  // insert할 때 null인 필드 제외
 @Entity
 public class User {
     
@@ -38,9 +43,12 @@ public class User {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @ColumnDefault("'user'")    // 'user' 로 문자라는 걸 알려줘야 함
-    private String role;    // Enum을 쓰는게 좋다. // admin, user, manager 등 도메인 설정을 할 수 있다. (도메인 : 어떤 범위가 정해진 것)
+    // @ColumnDefault("user")
+    // DB는 RoleType이라는게 없다.
+    // 그래서 @Enumerated(EnumType.STRING) 설정해 줘야 한다.
+    @Enumerated(EnumType.STRING)
+    private RoleType role;    // Enum을 쓰는게 좋다. // admin, user, manager 등 도메인 설정을 할 수 있다. (도메인 : 어떤 범위가 정해진 것)
 
     @CreationTimestamp  // 시간이 자동 입력
-    private Timestamp createDate;
+    private LocalDateTime createDate;
 }
