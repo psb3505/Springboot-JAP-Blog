@@ -33,18 +33,18 @@ public class DummyControllerTest {
         // user/4를 찾으면 내가 데이터베이스에서 못 찾아오게 되면 user가 null이 될 거다.
         // 그럼 return null이 리턴이 되기 때문에 프로그램에 문제가 생긴다.
         // Optional로 User 객체를 감싸 가져와서 null 인지 아닌지 판단해서 return 해야 함
-        User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {
-            @Override
-            public IllegalArgumentException get() {
-                // TODO Auto-generated method stub
-                return new IllegalArgumentException("해당 유저는 없습니다. id : " + id);
-            }
-        });
+        // User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {
+        //     @Override
+        //     public IllegalArgumentException get() {
+        //         // TODO Auto-generated method stub
+        //         return new IllegalArgumentException("해당 유저는 없습니다. id : " + id);
+        //     }
+        // });
 
         // 람다식
-        // User user = userRepository.findById(id).orElseThrow(() -> {
-        //     return new IllegalArgumentException("해당 유저는 없습니다. id : " + id);
-        // });
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            return new IllegalArgumentException("해당 유저는 없습니다. id : " + id);
+        });
 
         // 요청 : 웹브라우저
         // user 객체 = 자바 오브젝트
