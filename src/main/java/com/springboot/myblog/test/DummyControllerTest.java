@@ -9,12 +9,13 @@ import com.springboot.myblog.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,15 @@ public class DummyControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    @DeleteMapping("/dummy/user/{id}")
+    public String delete(@PathVariable int id) {
+        if (!userRepository.existsById(id)) {
+            return("삭제에 실패하였습니다. 해당 id는 DB에 없습니다.");
+        }
+        userRepository.deleteById(id);
+        return "삭제되었습니다. id : " + id;
+    }
+
     // /dummy/user/{id} URL이 같은 Mapping이 있어도 GET, PUT, DELETE를 Spring이 자동으로 구별해서 매핑해준다.
     // save 함수는 id를 전달하지 않으면 insert를 해주고
     // save 함수는 id를 전달하면 해당 id에 대한 데이터가 있으면 update를 해주고
@@ -58,7 +68,7 @@ public class DummyControllerTest {
 
         // userRepository.save(user);
 
-        return null;
+        return user;
     }
     
 
