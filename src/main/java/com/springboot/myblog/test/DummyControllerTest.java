@@ -6,6 +6,8 @@ import com.springboot.myblog.model.RoleType;
 import com.springboot.myblog.model.User;
 import com.springboot.myblog.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -32,6 +37,30 @@ public class DummyControllerTest {
     // 이게 의존성 주입(DI)이다.
     @Autowired
     private UserRepository userRepository;
+
+    // /dummy/user/{id} URL이 같은 Mapping이 있어도 GET, PUT, DELETE를 Spring이 자동으로 구별해서 매핑해준다.
+    // save 함수는 id를 전달하지 않으면 insert를 해주고
+    // save 함수는 id를 전달하면 해당 id에 대한 데이터가 있으면 update를 해주고
+    // save 함수는 id를 전달하면 해당 id에 대한 데이터가 없으면 insert를 해준다.
+    @Transactional
+    @PutMapping("/dummy/user/{id}") 
+    public User updateUser(@PathVariable int id, @RequestBody User requestUser) {   // json 데이터를 요청(@RequestBody로 데이터를 받는다.) => Java Object(MessageConverter의 Jackson 라이브러리가 변환해서 받아준다.)
+        System.out.println("id : " + id);
+        System.out.println("password : " + requestUser.getPassword());
+        System.out.println("email : " + requestUser.getEmail());
+
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            return new IllegalArgumentException("수정에 실패하였습니다.");
+        });
+
+        user.setPassword(requestUser.getPassword());
+        user.setEmail(requestUser.getEmail());
+
+        // userRepository.save(user);
+
+        return null;
+    }
+    
 
     @GetMapping("/dummy/users")
     public List<User> list() {
