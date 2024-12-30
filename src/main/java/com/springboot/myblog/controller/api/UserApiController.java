@@ -11,11 +11,16 @@ import com.springboot.myblog.model.RoleType;
 import com.springboot.myblog.model.User;
 import com.springboot.myblog.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 public class UserApiController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private HttpSession session;
     
     @PostMapping("/api/user")
     public ResponseDto save(@RequestBody User user) {
@@ -24,5 +29,17 @@ public class UserApiController {
         user.setRole(RoleType.USER);
         userService.회원가입(user);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);        
+    }
+
+    @PostMapping("/api/user/login")
+    public ResponseDto<Integer> login(@RequestBody User user) {
+        System.out.println("UserApiController : login 호출됨");
+        User principal = userService.로그인(user);  // principal (접근주체)
+        
+        if(principal != null) {
+            session.setAttribute("principal", principal);
+        }
+
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 }
