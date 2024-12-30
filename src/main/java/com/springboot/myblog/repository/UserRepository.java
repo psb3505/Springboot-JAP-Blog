@@ -11,11 +11,14 @@ import com.springboot.myblog.model.User;
 // 자동으로 bean 등록이 된다.
 // @Repository 생략 가능하다.
 public interface UserRepository extends JpaRepository<User, Integer> {
-    //JPA Naming 쿼리
-    // SELECT * FROM user WHERE username = ? AND password = ?;
-    User findByUsernameAndPassword(String username, String password);
-
-    // 또 다른 select 방법 (native 쿼리)
-    // @Query(value = "SELECT * FROM user WHERE username = ? AND password = ?", nativeQuery = true)
-    // User login(String username, String password);
+    
 }
+
+
+//JPA Naming 쿼리
+// SELECT * FROM user WHERE username = ? AND password = ?;
+//User findByUsernameAndPassword(String username, String password);
+
+// 또 다른 select 방법 (native 쿼리)
+// @Query(value = "SELECT * FROM user WHERE username = ? AND password = ?", nativeQuery = true)
+// User login(String username, String password);
