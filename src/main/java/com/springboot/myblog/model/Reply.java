@@ -1,6 +1,7 @@
 package com.springboot.myblog.model;
 
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -39,6 +40,6 @@ public class Reply {
     private User user;
 
     @CreationTimestamp
-    private Timestamp createDate;
+    private LocalDateTime createDate;
 
 }

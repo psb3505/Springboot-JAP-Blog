@@ -1,6 +1,7 @@
 package com.springboot.myblog.model;
 
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -38,7 +39,6 @@ public class Board {
     @Lob    // 대용량 데이터 사용할 때 사용
     private String content; // 섬머노트 라이브러리 <html> 태그가 섞여서 디자인이 됨.
 
-    @ColumnDefault("0")
     private int count; // 조회수
 
     // Board = Many, User = one
@@ -54,6 +54,6 @@ public class Board {
     private List<Reply> reply;
 
     @CreationTimestamp
-    private Timestamp createDate;
+    private LocalDateTime createDate;
 
 }
