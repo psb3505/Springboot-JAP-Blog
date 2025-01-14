@@ -5,11 +5,9 @@ let index = {
       this.save();
     });
     $("#btn-delete").on("click", () => {
-      // function(){}, ()=>{} this를 바인딩하기 위해서 사용
       this.deleteById();
     });
     $("#btn-update").on("click", () => {
-      // function(){}, ()=>{} this를 바인딩하기 위해서 사용
       this.update();
     });
   },
