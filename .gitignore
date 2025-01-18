@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### 환경 설정 파일 제외 ###
+application-kakao.yml
+application-db.yml

@@ -11,16 +11,15 @@ spring:
   application:
     name: myblog
 
+  config:
+    import: 
+      - "application-kakao.yml"
+      - "application-db.yml"
+
   mvc:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/blogdb?serverTimezone=Asia/Seoul
-    username: psb3505
-    password: zcbadg19487.
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     open-in-view: true
