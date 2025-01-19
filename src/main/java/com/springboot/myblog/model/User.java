@@ -34,13 +34,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 프로젝트에서 연결된 DB의 넘버링 전략을 따라간다. (mysql일 경우 auto_increament를 사용하게 된다.)
     private int id; // 시퀀스, auto_increament
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 100)
     private String username;    // 아이디
     
     @Column(nullable = false, length = 100) // 길이를 100으로 넉넉하게 준 이유 : 123456 => 해쉬 (비밀번호 암호화)
     private String password;
 
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String email;
 
     // @ColumnDefault("user")
@@ -48,6 +48,8 @@ public class User {
     // 그래서 @Enumerated(EnumType.STRING) 설정해 줘야 한다.
     @Enumerated(EnumType.STRING)
     private RoleType role;    // Enum을 쓰는게 좋다. // admin, user, manager 등 도메인 설정을 할 수 있다. (도메인 : 어떤 범위가 정해진 것)
+
+    private String oauth;
 
     @CreationTimestamp  // 시간이 자동 입력
     private LocalDateTime createDate;

@@ -46,13 +46,25 @@ public class UserService {
         User persistance = userRepository.findById(user.getId()).orElseThrow(() ->{
             return new IllegalArgumentException("회원 찾기 실패");
         }); 
-        String rawPassword = user.getPassword();
-        String encPassword = encoder.encode(rawPassword);
-        persistance.setPassword(encPassword);
-        persistance.setEmail(user.getEmail());
+
+        // Validate 체크
+        if(persistance.getOauth() == null || persistance.getOauth().equals("")) {
+            String rawPassword = user.getPassword();
+            String encPassword = encoder.encode(rawPassword);
+            persistance.setPassword(encPassword);
+            persistance.setEmail(user.getEmail());
+        }
 
         // 세션 변경
         principalDetail.setUser(user);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public User 회원찾기(String username) {
+        User user = userRepository.findByUsername(username).orElseGet(() -> {
+            return new User();
+        }); // 유저가 없으면 빈 객체 반환
+        return user;
     }
     
 }
