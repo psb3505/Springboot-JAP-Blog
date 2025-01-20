@@ -73,4 +73,9 @@ public class BoardService {
     public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
         replyRepository.nativeInsertReply(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(), replySaveRequestDto.getContent());
     }
+
+    @org.springframework.transaction.annotation.Transactional
+    public void 댓글삭제(int replyId) {
+        replyRepository.deleteById(replyId);
+    }
 }
