@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.myblog.config.auth.PrincipalDetail;
+import com.springboot.myblog.dto.ReplySaveRequestDto;
 import com.springboot.myblog.dto.ResponseDto;
 import com.springboot.myblog.model.Board;
+import com.springboot.myblog.model.Reply;
 import com.springboot.myblog.model.RoleType;
 import com.springboot.myblog.model.User;
 import com.springboot.myblog.service.BoardService;
@@ -43,6 +45,13 @@ public class BoardApiController {
     public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board) {
         boardService.글수정하기(id, board);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
+
+    @PostMapping("/api/board/{boardId}/reply")
+    public ResponseDto replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+
+        boardService.댓글쓰기(replySaveRequestDto);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);        
     }
     
 }

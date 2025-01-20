@@ -8,10 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.springboot.myblog.dto.ReplySaveRequestDto;
 import com.springboot.myblog.model.Board;
+import com.springboot.myblog.model.Reply;
 import com.springboot.myblog.model.RoleType;
 import com.springboot.myblog.model.User;
 import com.springboot.myblog.repository.BoardRepository;
+import com.springboot.myblog.repository.ReplyRepository;
 import com.springboot.myblog.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,6 +26,12 @@ public class BoardService {
     
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @org.springframework.transaction.annotation.Transactional
     public void 글쓰기(Board board, User user) {
@@ -60,4 +69,8 @@ public class BoardService {
         // 해당 함수로 종료시(Service가 종료될 때) 트랜잭션이 종료된다. 이때 더티체킹 - 자동 업데이트가 됨. DB flush
     }
     
+    @org.springframework.transaction.annotation.Transactional
+    public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
+        replyRepository.nativeInsertReply(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(), replySaveRequestDto.getContent());
+    }
 }
